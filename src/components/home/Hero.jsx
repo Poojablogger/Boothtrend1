@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Heart, ChevronLeft, ChevronRight, Camera, Store, PartyPopper, User } from "lucide-react";
 import hero from "../../assets/hero.jpeg";
-import personal from "../../assets/personal.jpeg";
-import wedding from "../../assets/wedding.jpeg";
-import events from "../../assets/events.jpeg";
+import personal from "../../assets/good-vibes.jpeg";
+import wedding from "../../assets/forever-together.jpeg";
+import funFrame from "../../assets/Fun.png";
+import friendsFrame from "../../assets/friends-frame.jpeg";
+import festivalFrame from "../../assets/festival-frame.jpeg";
 
 /* ---------- SLIDES ---------- */
 const slides = [
@@ -60,13 +62,18 @@ const slides = [
 
 // Main picture for each slide (same order as slides above).
 // If you fill in a slide's img value, that is used instead.
-const slideImages = [hero, personal, wedding, events];
+const slideImages = [funFrame, friendsFrame, festivalFrame, hero];
+
+// Pictures used in the small photo strip behind the main photo
+const stripPool = [friendsFrame, festivalFrame, funFrame, hero, wedding, personal];
 
 /* ---------- HERO SLIDER ---------- */
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);
   const slide = slides[current];
   const image = slide.img || slideImages[current];
+  // 3 strip photos, changes with each slide
+  const strip = [0, 1, 2].map((i) => stripPool[(current * 2 + i) % stripPool.length]);
 
   const next = () => setCurrent((c) => (c + 1) % slides.length);
   const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
@@ -109,12 +116,38 @@ export default function HeroSlider() {
             </div>
           </div>
 
-          {/* Right: image */}
+          {/* Right: photo booth frames (polaroid + photo strip) */}
           <div className="mx-auto w-full max-w-md sm:max-w-lg lg:max-w-none">
-            <div className="overflow-hidden rounded-3xl bg-linear-to-br from-purple-200 via-fuchsia-100 to-orange-100 p-3 shadow-xl sm:p-5 lg:rounded-4xl">
-              <div className="aspect-4/3 overflow-hidden rounded-2xl">
-                <img src={image} alt={slide.tab} className="h-full w-full object-cover" />
+            <div className="relative aspect-square w-full">
+              {/* Soft colour glow behind the frames (matches each slide) */}
+              <div className={`absolute inset-x-[8%] inset-y-[10%] rounded-full bg-linear-to-br ${slide.bg} blur-2xl`} />
+
+              {/* Photo strip (back) */}
+              <div className="strip-in absolute right-[1%] top-[10%] w-[29%] rotate-[7deg] bg-white p-[2.5%] pb-0 shadow-xl ring-1 ring-black/5">
+                <div className="flex flex-col gap-1.5 sm:gap-2">
+                  {strip.map((src, i) => (
+                    <div key={i} className="aspect-4/3 overflow-hidden bg-slate-100">
+                      <img src={src} alt="" className="h-full w-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+                <p className="py-1.5 text-right pr-1 text-[8px] font-semibold tracking-wide text-purple-600 sm:py-2 sm:text-[11px]">
+                  The Booth Trend
+                </p>
               </div>
+
+              {/* Polaroid (front) */}
+              <figure className="polaroid-in absolute left-[1%] top-[12%] w-[68%] -rotate-3 bg-white p-[3%] pb-0 shadow-2xl ring-1 ring-black/5">
+                {/* Tape on top */}
+                <span className="absolute -top-2.5 left-1/2 h-6 w-20 -translate-x-1/2 rotate-3 bg-fuchsia-200/70 shadow-sm sm:w-28" />
+                <div className="aspect-square overflow-hidden bg-slate-100">
+                  <img src={image} alt={slide.tab} className="h-full w-full object-cover" />
+                </div>
+                <figcaption className="flex items-center justify-center gap-1.5 py-3 text-sm font-semibold text-slate-700 sm:py-4 sm:text-lg">
+                  {slide.cards[0]}
+                  <Heart className="h-3.5 w-3.5 fill-fuchsia-500 text-fuchsia-500 sm:h-4 sm:w-4" />
+                </figcaption>
+              </figure>
             </div>
           </div>
         </div>
@@ -151,7 +184,11 @@ export default function HeroSlider() {
       <style>{`
         .hero-fade { animation: heroFade 0.5s ease; }
         @keyframes heroFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-        @media (prefers-reduced-motion: reduce) { .hero-fade { animation: none; } }
+        .polaroid-in { animation: polaroidIn 0.6s cubic-bezier(.2,.8,.2,1); }
+        .strip-in { animation: stripIn 0.6s 0.1s cubic-bezier(.2,.8,.2,1) both; }
+        @keyframes polaroidIn { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: none; } }
+        @keyframes stripIn { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .hero-fade, .polaroid-in, .strip-in { animation: none; } }
       `}</style>
     </section>
   );

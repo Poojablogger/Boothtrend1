@@ -2,15 +2,27 @@ import { useEffect, useState } from "react";
 import { Search, ArrowRight } from "lucide-react";
 import Navbar from "../home/Navbar";
 import Footer from "../home/Footer";
-import birthday from "../../assets/birthday.jpeg";
-import wedding from "../../assets/wedding.jpeg";
-import personal from "../../assets/personal.jpeg";
-import festival from "../../assets/festival.jpeg";
-import friends from "../../assets/friends.jpeg";
-import events from "../../assets/events.jpeg";
+import birthday from "../../assets/Cele.jpeg";
+import wedding from "../../assets/forever-together.jpeg";
+import personal from "../../assets/good-vibes.jpeg";
+import festival from "../../assets/festival-frame.jpeg";
+import friends from "../../assets/friends-frame.jpeg";
+import events from "../../assets/events1.jpeg";
+import married from "../../assets/married.jpeg";
+import engage from "../../assets/Engage.jpeg";
+import party from "../../assets/Party.jpeg";
+import self from "../../assets/Self.jpeg";
+import frame1 from "../../assets/frame1.jpeg";
+import frame3 from "../../assets/frame3.jpeg";
+import frame4 from "../../assets/frame4.jpeg";
+import frame5 from "../../assets/frame5.jpeg";
+import frame6 from "../../assets/frame6.jpeg";
+import frame7 from "../../assets/frame7.jpeg";
+import frame8 from "../../assets/frame8.jpeg";
 
-const categories = ["All", "Birthday", "Wedding", "Personal", "Festival", "Friends", "Events"];
+const categories = ["All", "Birthday", "Wedding", "Personal", "Festival", "Friends", "Events", "Couple", "Party", "Graduation"];
 
+// Every template has its own image (no repeats)
 const templates = [
   { id: 1, title: "Happy Birthday", category: "Birthday", img: birthday },
   { id: 2, title: "Forever Together", category: "Wedding", img: wedding },
@@ -18,12 +30,17 @@ const templates = [
   { id: 4, title: "Happy Diwali", category: "Festival", img: festival },
   { id: 5, title: "Best Friends", category: "Friends", img: friends },
   { id: 6, title: "Event Voice", category: "Events", img: events },
-  { id: 7, title: "Little Star", category: "Birthday", img: birthday },
-  { id: 8, title: "Just Married", category: "Wedding", img: wedding },
-  { id: 9, title: "Festival Joy", category: "Festival", img: festival },
-  { id: 10, title: "Squad Goals", category: "Friends", img: friends },
-  { id: 11, title: "Grand Opening", category: "Events", img: events },
-  { id: 12, title: "Me Time", category: "Personal", img: personal },
+  { id: 7, title: "Golden Garden Frame", category: "Wedding", img: married },
+  { id: 8, title: "Floral Name Frame", category: "Wedding", img: frame3 },
+  { id: 9, title: "Royal Blue Wedding", category: "Wedding", img: engage },
+  { id: 10, title: "Happy Valentine's Day", category: "Party", img: frame1 },
+  { id: 11, title: "Time to Disco", category: "Party", img: party },
+  { id: 12, title: "Bridal Shower", category: "Party", img: frame7 },
+  { id: 13, title: "Just Here for the Cake", category: "Birthday", img: self },
+  { id: 14, title: "Polaroid Couple Frame", category: "Couple", img: frame4 },
+  { id: 15, title: "Love Balloon Stand", category: "Couple", img: frame5 },
+  { id: 16, title: "Engagement Party", category: "Couple", img: frame6 },
+  { id: 17, title: "Congrats Graduate", category: "Graduation", img: frame8 },
 ];
 
 export default function Gallery() {
@@ -105,11 +122,14 @@ export default function Gallery() {
                 key={t.id}
                 className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="relative aspect-square overflow-hidden">
+                <div className="relative aspect-square overflow-hidden bg-slate-100">
+                  {/* Blurred copy fills the empty sides of tall images */}
+                  <img src={t.img} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-xl" />
+                  {/* Full image, never cropped */}
                   <img
                     src={t.img}
                     alt={t.title}
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    className="relative h-full w-full object-contain transition duration-300 group-hover:scale-105"
                   />
                   <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-purple-600">
                     {t.category}
