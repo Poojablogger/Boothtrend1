@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Camera, Video, RefreshCw, ArrowLeft, Download, Share2, RotateCcw, X, Home } from "lucide-react";
 import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
 import { TEMPLATES, CANVAS_W, CANVAS_H } from "./templates";
+import Logo from "../home/Logo";
 
 const MAX_VIDEO_SECONDS = 15;
 const STEPS = ["Choose frame", "Shoot", "Share"];
@@ -333,9 +334,9 @@ export default function BoothDemo() {
             <span className="hidden sm:inline">Home</span>
           </Link>
 
-          <span className="bg-linear-to-r from-fuchsia-500 to-purple-600 bg-clip-text text-base font-extrabold text-transparent sm:text-lg">
-            The Booth Trend
-          </span>
+          <Link to="/" aria-label="The Booth Trend home" className="origin-center scale-75 sm:scale-90 md:scale-100">
+            <Logo />
+          </Link>
 
           <ol className="flex items-center gap-1.5 sm:gap-3">
             {STEPS.map((label, i) => (
